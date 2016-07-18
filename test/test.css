@@ -1,0 +1,14 @@
+body > div
+{
+  background: lime;
+}
+
+body > div > div
+{
+  background: orange;
+}
+
+body > div > div > div
+{
+  background: rgba(0,0,0,0.1);
+}
