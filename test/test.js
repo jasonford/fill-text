@@ -92,7 +92,7 @@ function generateTestConfig() {
         'bottomright',
         ''
       ][randomInt(0, 7)]
-  }
+  };
 }
 
 function runTests() {
@@ -121,6 +121,7 @@ function run(test, done, skipValidation) {
   //  fillText uses requestAnimationFrame for first fit, so will
   //  add the check to an animation frame after first fit
   if (!skipValidation) {
+    //  request animation frame to flash item on screen
     requestAnimationFrame(function () {
       var inner = container.firstChild.firstChild.getBoundingClientRect();
       var outer = container.firstChild.getBoundingClientRect();
@@ -177,12 +178,13 @@ function run(test, done, skipValidation) {
       var extraSpace = Math.min(outer.width - inner.width, outer.height - inner.height);
 
       // ensure spacer inside of container is respecting padding
-      var outerLeft = Math.round(outer.left-wrapper.left);
-      var outerRight = Math.round(wrapper.right-outer.right);
-      var outerTop = Math.round(outer.top-wrapper.top);
-      var outerBottom = Math.round(wrapper.bottom-outer.bottom);
+      var outerLeft = outer.left-wrapper.left;
+      var outerRight = wrapper.right-outer.right;
+      var outerTop = outer.top-wrapper.top;
+      var outerBottom = wrapper.bottom-outer.bottom;
       var paddingRespected = true;
-      if (!(outerLeft == padding && outerRight == padding && outerTop == 5 && outerBottom == 5)) {
+      var tolerance = 1;
+      if (Math.abs(outerLeft-padding)>tolerance || Math.abs(outerRight-padding)>tolerance || Math.abs(outerTop-padding)>tolerance || Math.abs(outerBottom-padding)>tolerance) {
         console.log('padding not respected');
         paddingRespected = false;
       }

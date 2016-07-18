@@ -7,17 +7,13 @@ function fillText(element, alignment) {
 
     function width(el, width) {
         return width? $(el).width(width) : $(el).width();
-        if (width !== undefined) {
-          el.style.width = width + 'px';
-        }
+        if (width !== undefined) { el.style.width = width + 'px'; }
         return parseFloat(window.getComputedStyle(el, null).getPropertyValue('width'));
     }
 
     function height(el, height) {
         return height? $(el).height(height) : $(el).height();
-        if (height !== undefined) {
-          el.style.height = height + 'px';
-        }
+        if (height !== undefined) { el.style.height = height + 'px';}
         return parseFloat(window.getComputedStyle(el, null).getPropertyValue('height'));
     }
 
@@ -74,7 +70,7 @@ function fillText(element, alignment) {
             }
         }
         //    the sizer is now closest aspect ratio as its parent's
-        var scale = width(element) / width(sizer);
+        var scale = Math.min(width(element)/width(sizer), height(element)/height(sizer));
         style(sizer, {
             'webkitTransformOrigin': '0% 0%',
             'mozTransformOrigin': '0% 0%',
@@ -114,11 +110,5 @@ function fillText(element, alignment) {
         });
         style(element, {opacity : 1});
     }
-    var mostRecentFrame = requestAnimationFrame(fit);
-    element.addEventListener('elementresize', function () {
-      var frame = requestAnimationFrame(function () {
-        if (frame === mostRecentFrame) fit();
-      });
-      mostRecentFrame = frame;
-    });
+    fit();
 }
