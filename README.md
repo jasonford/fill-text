@@ -1,5 +1,7 @@
 # fill-text
-Automatically scale rendered DOM text to aesthetically fit inside its parent node
+Automatically scale rendered DOM text to aesthetically fit inside its parent node.
+
+Does it's best to break lines in text so the result fits the aspect ratio of the container.
 
 ## Dependencies
 `jquery` is used for it's height and width functions
