@@ -205,7 +205,7 @@ function run(test, done, skipValidation) {
       if (aligned && innerContained && extraSpace >= 0 && withinExtraSpaceTolerance && paddingRespected) {
         passed += 1;
         document.getElementById('passed').innerHTML = (passed + '/' + (passed + failed) + ' ' + parseFloat(Math.round(passed/(passed + failed)*1000)/10)+'%');
-        document.body.removeChild(container);
+        //document.body.removeChild(container);
         done();
       }
       else {
