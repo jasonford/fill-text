@@ -1,5 +1,85 @@
 var cssExpand = [ "Top", "Right", "Bottom", "Left" ];
 
+function curCSS( elem, name, computed ) {
+    var width, minWidth, maxWidth, ret,
+        style = elem.style;
+
+    computed = computed || getStyles( elem );
+
+    // Support: IE <=9 only
+    // getPropertyValue is only needed for .css('filter') (#12537)
+    if ( computed ) {
+        ret = computed.getPropertyValue( name ) || computed[ name ];
+/*
+        if ( ret === "" && !jQuery.contains( elem.ownerDocument, elem ) ) {
+            ret = jQuery.style( elem, name );
+        }
+*/
+        // A tribute to the "awesome hack by Dean Edwards"
+        // Android Browser returns percentage for some values,
+        // but width seems to be reliably pixels.
+        // This is against the CSSOM draft spec:
+        // https://drafts.csswg.org/cssom/#resolved-values
+        if ( /*!support.pixelMarginRight()*/ false && rnumnonpx.test( ret ) && rmargin.test( name ) ) {
+
+            // Remember the original values
+            width = style.width;
+            minWidth = style.minWidth;
+            maxWidth = style.maxWidth;
+
+            // Put in the new values to get a computed value out
+            style.minWidth = style.maxWidth = style.width = ret;
+            ret = computed.width;
+
+            // Revert the changed values
+            style.width = width;
+            style.minWidth = minWidth;
+            style.maxWidth = maxWidth;
+        }
+    }
+
+    return ret !== undefined ?
+
+        // Support: IE <=9 - 11 only
+        // IE returns zIndex value as an integer.
+        ret + "" :
+        ret;
+}
+
+function css( elem, name, extra, styles ) {
+    var val, num, hooks,
+        origName = jQuery.camelCase( name );
+
+    // Make sure that we're working with the right name
+    name = jQuery.cssProps[ origName ] ||
+        ( jQuery.cssProps[ origName ] = /*vendorPropName( origName ) ||*/ origName );
+
+    // Try prefixed name followed by the unprefixed name
+    hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
+
+    // If a hook was provided get the computed value from there
+    if ( hooks && "get" in hooks ) {
+        val = hooks.get( elem, true, extra );
+    }
+
+    // Otherwise, if a way to get the computed value exists, use that
+    if ( val === undefined ) {
+        val = curCSS( elem, name, styles );
+    }
+
+    // Convert "normal" to computed value
+    if ( val === "normal" && name in cssNormalTransform ) {
+        val = cssNormalTransform[ name ];
+    }
+
+    // Make numeric if forced or a qualifier was provided and val looks numeric
+    if ( extra === "" || extra ) {
+        num = parseFloat( val );
+        return extra === true || isFinite( num ) ? num || 0 : val;
+    }
+    return val;
+}
+
 function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
     var i = extra === ( isBorderBox ? "border" : "content" ) ?
 
@@ -15,28 +95,28 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 
         // Both box models exclude margin, so add it if we want it
         if ( extra === "margin" ) {
-            val += jQuery.css( elem, extra + cssExpand[ i ], true, styles );
+            val += css( elem, extra + cssExpand[ i ], true, styles );
         }
 
         if ( isBorderBox ) {
 
             // border-box includes padding, so remove it if we want content
             if ( extra === "content" ) {
-                val -= jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+                val -= css( elem, "padding" + cssExpand[ i ], true, styles );
             }
 
             // At this point, extra isn't border nor margin, so remove border
             if ( extra !== "margin" ) {
-                val -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+                val -= css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
             }
         } else {
 
             // At this point, extra isn't content, so add padding
-            val += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
+            val += css( elem, "padding" + cssExpand[ i ], true, styles );
 
             // At this point, extra isn't content nor padding, so add border
             if ( extra !== "padding" ) {
-                val += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
+                val += css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
             }
         }
     }
@@ -79,7 +159,7 @@ function getWidthOrHeight( elem, name, extra ) {
         // Check for style in case a browser which returns unreliable values
         // for getComputedStyle silently falls back to the reliable elem.style
         valueIsBorderBox = isBorderBox &&
-            ( support.boxSizingReliable() || val === elem.style[ name ] );
+            ( /*support.boxSizingReliable()*/ true || val === elem.style[ name ] );
 
         // Normalize "", auto, and prepare for extra
         val = parseFloat( val ) || 0;
