@@ -1,0 +1,22 @@
+{
+  "name": "@knowlearning/fill-text",
+  "version": "1.0.0",
+  "description": "Automatically scale rendered DOM text to aesthetically fit inside its parent node.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/knowlearning/fill-text.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/knowlearning/fill-text/issues"
+  },
+  "homepage": "https://github.com/knowlearning/fill-text#readme"
+}
