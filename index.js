@@ -188,7 +188,7 @@ function getWidthOrHeight( elem, name, extra ) {
     );
 }
 
-export default function fillText(element, alignment) {
+function fillText(element, alignment) {
     function style(el, styles) {
         for (var field in styles) {
             el.style[field] = styles[field];
@@ -306,3 +306,5 @@ export default function fillText(element, alignment) {
     }
     fit();
 }
+
+export default fillText;
