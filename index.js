@@ -1,4 +1,15 @@
 var cssExpand = [ "Top", "Right", "Bottom", "Left" ];
+var rmsPrefix = /^-ms-/;
+var rdashAlpha = /-([a-z])/g;
+var cssProps = { "float": "cssFloat" }
+
+function fcamelCase( all, letter ) {
+    return letter.toUpperCase();
+};
+
+function camelCase( string ) {
+    return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
+}
 
 function curCSS( elem, name, computed ) {
     var width, minWidth, maxWidth, ret,
@@ -48,14 +59,14 @@ function curCSS( elem, name, computed ) {
 
 function css( elem, name, extra, styles ) {
     var val, num, hooks,
-        origName = jQuery.camelCase( name );
+        origName = camelCase( name );
 
     // Make sure that we're working with the right name
-    name = jQuery.cssProps[ origName ] ||
-        ( jQuery.cssProps[ origName ] = /*vendorPropName( origName ) ||*/ origName );
+    name = cssProps[ origName ] ||
+        ( cssProps[ origName ] = /*vendorPropName( origName ) ||*/ origName );
 
     // Try prefixed name followed by the unprefixed name
-    hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
+    // hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
 
     // If a hook was provided get the computed value from there
     if ( hooks && "get" in hooks ) {
@@ -131,7 +142,7 @@ function getWidthOrHeight( elem, name, extra ) {
     var val,
         valueIsBorderBox = true,
         styles = window.getComputedStyle( elem ),
-        isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
+        isBorderBox = css( elem, "boxSizing", false, styles ) === "border-box";
 
     // Support: IE <=11 only
     // Running getBoundingClientRect on a disconnected node

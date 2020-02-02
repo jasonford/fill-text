@@ -205,13 +205,13 @@ function run(test, done, skipValidation) {
       //  ensure inner is within tolerance
       if (aligned && innerContained && extraSpace >= 0 && withinExtraSpaceTolerance && paddingRespected) {
         passed += 1;
-        $('.passed ').text(passed + '/' + (passed + failed) + ' ' + parseFloat(Math.round(passed/(passed + failed)*1000)/10)+'%');
+        document.getElementById('passed').innerHTML = (passed + '/' + (passed + failed) + ' ' + parseFloat(Math.round(passed/(passed + failed)*1000)/10)+'%');
         document.body.removeChild(container);
         done();
       }
       else {
         failed += 1;
-        $('.passed ').text(passed + '/' + (passed + failed));
+        document.getElementById('passed').innerHTML = (passed + '/' + (passed + failed));
         console.log(JSON.stringify(test, null, 4), 'not aligned/contained', inner, outer,
           outerLeft, outerRight, outerTop, outerBottom);
         done();
@@ -220,7 +220,7 @@ function run(test, done, skipValidation) {
   }
   else {
     passed += 1;
-    $('.passed ').text(passed + '/' + (passed + failed));
+    document.getElementById('passed').innerHTML = (passed + '/' + (passed + failed));
     document.body.removeChild(container);
     done();
   }
