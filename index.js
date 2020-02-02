@@ -235,8 +235,6 @@ function fillText(element, alignment) {
         sizer = document.createElement('div');
         sizer.appendChild(text_element);
 
-        sizer.style.fontSize = '12px';
-
         element.appendChild(sizer);
 
         var text_aspect_ratio = width(text_element) / height(text_element);
@@ -255,12 +253,12 @@ function fillText(element, alignment) {
         while (true) {
             w *= scaleFactor;
             h *= scaleFactor;
-            setWidth(sizer, w);
-            setHeight(sizer, h);
-            if (width(sizer) < width(text_element)|| height(sizer) < height(text_element)) {
-                setWidth(sizer, w/scaleFactor);
-                setHeight(sizer, h/scaleFactor);
+            if (w < width(text_element) ||  h < height(text_element)) {
                 break;
+            }
+            else {
+                setWidth(sizer, w);
+                setHeight(sizer, h);
             }
         }
         //    the sizer is now closest aspect ratio as its parent's
@@ -307,4 +305,6 @@ function fillText(element, alignment) {
     fit();
 }
 
-export default fillText;
+window.fillText = fillText
+
+//export default fillText;

@@ -107,7 +107,6 @@ function runTests() {
 }
 
 function run(test, done, skipValidation) {
-  var textNode = document.createTextNode(test.text);
   var container = document.createElement('div');
   var padding = 5;
   style(container, {
@@ -119,7 +118,7 @@ function run(test, done, skipValidation) {
     'margin'      : '8px',
     'padding'     : padding + 'px'
   });
-  container.appendChild(textNode);
+  container.innerHTML = test.text;
   document.body.appendChild(container);
   fillText(container, test.alignment);
 
