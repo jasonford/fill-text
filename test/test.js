@@ -38,16 +38,22 @@ var tests = [{
     "alignment": "top"
 }];
 
-//  run test with no text content to ensure it does not fail
-run({
-    "text": "", //  empty test
-    "dimensions": [
-        496,
-        780
-    ],
-    "font": "sans-serif",
-    "alignment": "right"
-}, runTests, true);
+var startButton = document.getElementById('start')
+
+startButton
+  .addEventListener('click', function () {
+    document.body.removeChild(startButton)
+    //  run test with no text content to ensure it does not fail
+    run({
+        "text": "", //  empty test
+        "dimensions": [
+            496,
+            780
+        ],
+        "font": "sans-serif",
+        "alignment": "right"
+    }, runTests, true);
+  })
 
 function randomInt(start, end) {
   return Math.floor(start + (end-start)*Math.random());
