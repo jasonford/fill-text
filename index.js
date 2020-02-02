@@ -188,7 +188,7 @@ function getWidthOrHeight( elem, name, extra ) {
     );
 }
 
-function fillText(element, alignment) {
+export default function fillText(element, alignment) {
     function style(el, styles) {
         for (var field in styles) {
             el.style[field] = styles[field];
