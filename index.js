@@ -205,11 +205,11 @@ function fillText(element, alignment) {
     }
 
     function setWidth(el, width) {
-        el.style.width = width;
+        el.style.width = width + 'px';
     }
 
     function setHeight(el, height) {
-        el.style.height = height;
+        el.style.height = height + 'px';
     }
 
     var children = element.childNodes;
@@ -257,6 +257,7 @@ function fillText(element, alignment) {
         var h = height(sizer);
         var scaleFactor = 0.9;
         while (true) {
+            if (w < 0.0001) break; //  TODO: Better safegaurd for infinite loop
             w *= scaleFactor;
             h *= scaleFactor;
             setWidth(sizer, w);
