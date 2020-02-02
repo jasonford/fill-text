@@ -191,7 +191,8 @@ function getWidthOrHeight( elem, name, extra ) {
 function fillText(element, alignment) {
     function style(el, styles) {
         for (var field in styles) {
-            el.style[field] = styles[field];
+            var value = styles[field]
+            el.style[field] = typeof value == 'number' ? value + 'px' : value;
         }
     }
 
@@ -222,6 +223,7 @@ function fillText(element, alignment) {
         if (!document.contains(element)) return;
 
         var text_element = document.createElement('div');
+        text_element.classList.add('fill-text-inner')
         style(text_element, {
             position : 'relative',
             display : 'inline-block'
@@ -233,6 +235,10 @@ function fillText(element, alignment) {
           text_element.appendChild(child);
         });
         sizer = document.createElement('div');
+        sizer.classList.add('fill-text-sizer')
+        style(sizer, {
+            display : 'inline-block'
+        });
         sizer.appendChild(text_element);
 
         element.appendChild(sizer);
@@ -272,8 +278,8 @@ function fillText(element, alignment) {
             'transform' : 'scale(' + scale + ', ' + scale + ')'
         });
 
-        var top = (height(sizer) - height(text_element))/2/scale;
-        var left = (width(sizer) - width(text_element))/2/scale;
+        var top = (height(element) - height(text_element))/2/scale;
+        var left = (width(element) - width(text_element))/2/scale;
         var right = 'auto';
         var bottom = 'auto';
         
@@ -300,11 +306,14 @@ function fillText(element, alignment) {
             right : right,
             bottom : bottom
         });
-        style(element, {opacity : 1});
+
+        //  necessary for placement at top left of element in some css situations... TODO: write test that breaks without this
+        style(sizer, { display: 'block' })
     }
     fit();
 }
 
-window.fillText = fillText
+//  TODO: find better way than toggling comments below to make this work with the test harness
+//window.fillText = fillText
 
-//export default fillText;
+export default fillText;

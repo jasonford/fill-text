@@ -97,7 +97,7 @@ function generateTestConfig() {
         'bottomleft',
         'bottomright',
         ''
-      ][randomInt(0, 7)]
+      ][randomInt(0, 8)]
   };
 }
 
