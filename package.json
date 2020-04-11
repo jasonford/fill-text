@@ -1,7 +1,7 @@
 {
   "name": "@knowlearning/fill-text",
   "version": "1.0.0",
-  "description": "Automatically scale rendered DOM text to aesthetically fit inside its parent node.",
+  "description": "Aesthetically scale inline content to fill parent node.",
   "main": "index.js",
   "directories": {
     "test": "test"
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/knowlearning/fill-text/issues"
   },
-  "homepage": "https://github.com/knowlearning/fill-text#readme"
+  "homepage": "https://github.com/knowlearning/fill-text#readme",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
 }
